@@ -1,0 +1,14 @@
+# TODO
+
+- Implement the body of the snake
+    - Create a data structure to represent the snake's body
+    - Implement logic to grow the snake when it eats food
+    - Implement logic to move the snake's body
+
+- Implement a changeable game area
+    - Allow the user to set the dimensions of the game area
+    - Implement logic to handle collisions with the game area boundaries
+
+- Implement change of speed
+    - Allow the user to set the initial speed of the snake
+    - Implement logic to change the speed during the game (e.g., increase speed as the snake grows)
