@@ -2,6 +2,8 @@
 
 I have made a Snake game in assembly language as part of my learning journey to learn assembly. The code is probably really bad as this was me learning assembly.
 
+![Menu Screenshot](menu.png)
+
 ## Files
 
 - `main.asm`: The main entry point of the game.
