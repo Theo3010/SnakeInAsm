@@ -132,8 +132,7 @@ _exitGame:
     save_highscore
     
     reset_termois
-    exit              
-
+    exit         
 
 
 .HIDE_CURSOR:
