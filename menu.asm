@@ -37,7 +37,8 @@ _gameLoopCall:
     call _gameLoop
 
 _clearScore:
-    ; clear score
+    mov rax, 0
+    mov [highScore], rax
 
     jmp _repaint
 

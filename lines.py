@@ -12,6 +12,6 @@ def count_asm_lines(directory):
     return total_lines
 
 if __name__ == "__main__":
-    directory = '/home/theoliciouslinux/Datalogi/snake'
+    directory = './'
     total_lines = count_asm_lines(directory)
     print(f"Total lines of code in .asm files: {total_lines}")

@@ -9,7 +9,7 @@ _randInt:
 
     inc rbx ; inc the max by one - due to moduls can never produce the number itself
 
-    clc
+    clc ; clear carry flag
 _randLoop:
     rdrand rcx ; random number (usually big number)
     jnc _randLoop

@@ -1,6 +1,7 @@
 %define ROW 12
 %define COL 24
-
+%define SQUARES 288
+; ROW * COL
 
 %include "myLib/print_decimal.asm"
 %include "myLib/print_flush.asm"
@@ -12,6 +13,7 @@
 %include "myLib/file_close.asm"
 
 %include "myLib/get_input.asm"
+%include "myLib/to_integer.asm"
 
 %include "myLib/raw_mode.asm"
 %include "myLib/save_termois.asm"
@@ -36,6 +38,8 @@ section .data
     PRINT_BUFFER_LENGTH dq 0
     rawModeOn db 0
 
+    debug db "saved", 10, 0
+
     clear_screen db `\e[2J`, 0
 
     playerX dq 0
@@ -44,9 +48,7 @@ section .data
 
     fruitX dq 0
     fruitY dq 0
-
-    score dq 0
-    highScore dq 0
+    
     highScoreFile db "highScore.txt", 0
 
 section .bss
@@ -59,7 +61,12 @@ section .bss
     oldTermois resb 48
     rawTermios resb 48
 
-    gameMenuSection resb 1
+    gameMenuSection resb 8
+
+    highScore resb 16
+    score resb 16
+
+    board resb SQUARES
 
 
 section .text
@@ -102,6 +109,11 @@ _init:
 
     call _spawnRandomFruit
 
+
+    ; reset score
+    mov rax, 0
+    mov [score], rax
+
     ret
 
 
@@ -109,13 +121,13 @@ _start:
 
     load_highscore
 
-    call _init
-
     print _exitGame.HIDE_CURSOR
 
     save_termois
 
     raw_mode
+_startLoop:
+    call _init
 
     call _printMenu
 

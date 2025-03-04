@@ -62,24 +62,12 @@ _egdeReturn:
 
 _returnToMenu:
 
-    mov rax, [score]
-    mov rbx, [highScore]
-    cmp rax, rbx
-    jge _setNewHighScore
+    call _checkHighScore
 
 _skipScore:
     call _init
 
     ret
-
-
-_setNewHighScore:
-
-    mov rax, [score]
-    mov rbx, highScore
-    mov [rbx], rax
-
-    jmp _skipScore
 
 
 _checkFruit:
@@ -140,8 +128,8 @@ _checkEgde:
     jmp _egdeReturn
 
 _death:
-
-    jmp _start
+    call _checkHighScore
+    jmp _startLoop
 
 _turnUp:
     mov rbx, PlayerFacing
