@@ -33,6 +33,7 @@
 %include "game.asm"
 %include "spawnFruits.asm"
 %include "highscore.asm"
+%include "snake.asm"
 
 section .data
     PRINT_BUFFER_LENGTH dq 0
@@ -129,9 +130,30 @@ _start:
 _startLoop:
     call _init
 
-    call _printMenu
+    mov rax, board
 
-    call _MenuLoop
+
+    mov byte [rax], 1
+    mov byte [rax+25], 2
+    mov byte [rax+49], 3
+    mov byte [rax+73], 4
+
+    print clear_screen
+    call _printGame
+    call _printSnake
+
+    sleep 2000000
+
+    print clear_screen
+    ; call _move
+    call _printGame
+    call _printSnake
+
+    sleep 2000000
+
+    ; call _printMenu
+
+    ; call _MenuLoop
 
 _exitGame:
     move_ascii_cursor 0, 0

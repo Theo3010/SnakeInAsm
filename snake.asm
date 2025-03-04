@@ -1,12 +1,33 @@
 
 _grow:
-    mov rax, 1
-    add [_snake.snake], rax
-
-    ret
+    ; grow length
 
 _move:
-    ; move the snakes body
+    
+    mov rax, board
+    mov rcx, 0 ; counter
+
+_moveLoop:
+    mov bl, byte [rax]
+
+    inc rax
+    inc rcx
+
+    cmp rcx, SQUARES
+    je _moveDone
+
+    cmp bl, 0 ; if no snake, then no decrease
+    je _noTime
+
+    sub bl, 1
+
+    mov byte [rax], bl
+
+_noTime:
+    jmp _moveLoop
+
+_moveDone:
+    ret
 
 
 _checkDeath:
@@ -15,23 +36,62 @@ _checkDeath:
 _printSnake:
     
     mov rax, board
+    mov rcx, 0 ; counter
 
 _printSnakeLoop:
     mov bl, byte [rax]
 
+    inc rax
+    inc rcx
+
+    cmp rcx, SQUARES
+    je _printSnakeDone
+
     cmp bl, 0
     je _noSnake ; no snake
 
-    move_ascii_cursor 0, 0
-    print _printGame.player
+    push rax ; save pointer
 
+    mov rax, rcx
+    mov rdx, 0 ; mul
+    mov rsi, COL
+    div rsi ; rcx / ROW
+    push rax ; save result
+
+    mov rax, rcx
+    mov rdx, 0 ; mul
+    mov rsi, COL
+    div rsi ; rcx / ROW
+    push rdx ; save result
+
+    pop rdx
+    pop rax
+
+    add rax, 2
+    add rdx, 1
+
+    move_ascii_cursor 15, 15
+    print_decimal rcx
+    print_ascii_value 32
+    print_decimal COL
+    print_ascii_value 32
+    print_decimal rax
+    print_ascii_value 32
+    print_decimal rdx
+
+    move_ascii_cursor rax, rdx
+    print _printGame.player
     print_flush
 
-    inc rax
+    sleep 2000000
 
+    pop rax ; load pointer
 
 _noSnake:
     jmp _printSnakeLoop
+
+_printSnakeDone:
+    ret
 
 
 
