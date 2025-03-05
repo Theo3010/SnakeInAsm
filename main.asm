@@ -46,6 +46,7 @@ section .data
     playerX dq 0
     playerY dq 0
     PlayerFacing dq 0
+    playerLength dq 0
 
     fruitX dq 0
     fruitY dq 0
@@ -130,30 +131,9 @@ _start:
 _startLoop:
     call _init
 
-    mov rax, board
+    call _printMenu
 
-
-    mov byte [rax], 1
-    mov byte [rax+25], 2
-    mov byte [rax+49], 3
-    mov byte [rax+73], 4
-
-    print clear_screen
-    call _printGame
-    call _printSnake
-
-    sleep 2000000
-
-    print clear_screen
-    ; call _move
-    call _printGame
-    call _printSnake
-
-    sleep 2000000
-
-    ; call _printMenu
-
-    ; call _MenuLoop
+    call _MenuLoop
 
 _exitGame:
     move_ascii_cursor 0, 0

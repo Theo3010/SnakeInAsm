@@ -13,6 +13,8 @@ _gameLoop:
     mov [timeSinceMovement+8], rbx
 
     call _printGame
+    call _printSnake
+    call _move
 
 _skipRepaint:
     get_time
@@ -91,6 +93,8 @@ _checkFruit:
    
     mov rax, 1
     add [score], rax
+
+    call _grow
 
     call _spawnRandomFruit
 
@@ -191,6 +195,8 @@ _gameLoopUp:
     cmp rbx, rdx
     jge _returnMovement
 
+    call _moveHead
+
     mov rbx, playerX
     mov rdx, 1
     sub [rbx], rdx
@@ -201,6 +207,8 @@ _gameLoopRight:
     call _getTimeSinceMovement
     cmp rbx, rdx
     jge _returnMovement
+
+    call _moveHead
 
     mov rbx, playerY
     mov rdx, 1
@@ -213,6 +221,8 @@ _gameLoopDown:
     cmp rbx, rdx
     jge _returnMovement
 
+    call _moveHead
+
     mov rbx, playerX
     mov rdx, 1
     add [rbx], rdx
@@ -223,6 +233,8 @@ _gameLoopLeft:
     call _getTimeSinceMovement
     cmp rbx, rdx
     jge _returnMovement
+
+    call _moveHead
 
     mov rbx, playerY
     mov rdx, 1

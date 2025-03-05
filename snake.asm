@@ -2,6 +2,33 @@
 _grow:
     ; grow length
 
+    ; snake.length++
+    mov rax, 1
+    add [playerLength], rax
+
+    ret
+
+
+_moveHead:
+    ; player Y * col + player X = playerLength
+    mov rax, COL
+
+    mov rbx, [playerX]
+    sub rbx, 2
+
+    mul rbx ; COL * playerY
+    mov rbx, rax
+    
+    add rbx, [playerY] ; col * playerY + playerX
+    sub rbx, 2
+
+    mov cl, [playerLength]
+
+    mov rax, board
+    mov byte [rax+rbx], cl
+
+    ret
+
 _move:
     
     mov rax, board
@@ -10,8 +37,8 @@ _move:
 _moveLoop:
     mov bl, byte [rax]
 
-    inc rax
     inc rcx
+
 
     cmp rcx, SQUARES
     je _moveDone
@@ -19,11 +46,15 @@ _moveLoop:
     cmp bl, 0 ; if no snake, then no decrease
     je _noTime
 
+
     sub bl, 1
 
     mov byte [rax], bl
 
+    inc rax
+
 _noTime:
+    inc rax
     jmp _moveLoop
 
 _moveDone:
@@ -70,20 +101,9 @@ _printSnakeLoop:
     add rax, 2
     add rdx, 1
 
-    move_ascii_cursor 15, 15
-    print_decimal rcx
-    print_ascii_value 32
-    print_decimal COL
-    print_ascii_value 32
-    print_decimal rax
-    print_ascii_value 32
-    print_decimal rdx
-
     move_ascii_cursor rax, rdx
     print _printGame.player
     print_flush
-
-    sleep 2000000
 
     pop rax ; load pointer
 
@@ -104,9 +124,9 @@ _printSnakeDone:
 ;
 ; class snake
 ;   head = (x, y)
-;   board = [[0, 1, 2],
-;            [0, 4, 3]
-;            [0, x, 0]]
+;   board = [[0, 0, 1],
+;            [0, 3, 2]
+;            [x, 4, 0]]
 ;
 ;   4 bit per n = O(n) space
 ;
